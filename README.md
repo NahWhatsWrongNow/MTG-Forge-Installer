@@ -10,8 +10,6 @@ The installer includes MTG Forge, Archidekt deck import and sync, A Betting Man,
 
 - Hold The Line has 23 factions and 4,600 cards. Bracket II adds ten factions and 2,000 executable card definitions
 
-[Release notes and verification](V23-RELEASE-NOTES.md)
-
 **V23 SHA-256:** `07031B08E5E7EDBB1690D42D2FEEC3E9D80C178B9317BC952523F98FBF018E78`
 
 ## Working with this repository
