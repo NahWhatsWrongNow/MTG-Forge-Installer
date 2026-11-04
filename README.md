@@ -2,18 +2,13 @@
 
 [Download V23 — one CMD file](https://github.com/NahWhatsWrongNow/MTG-Forge-Installer/raw/refs/heads/main/Jadons%20Ultimate%20Installer%20v23.cmd)
 
-Download the file above and run it on Windows. You only need the CMD; it embeds the applications, card catalogs and artwork. Internet access is needed when downloading Forge or a missing portable runtime. Windows PowerShell is required.
+Download the file above and run it on Windows. You only need the CMD.
 
 The installer includes MTG Forge, Archidekt deck import and sync, A Betting Man, Hold The Line, and the university development tools for Python, VS Code and React.
 
 ## V23
 
-- Hold The Line has 23 factions and 4,600 cards. Bracket II adds ten factions and 2,000 executable card definitions, with the supplied deck boxes, backgrounds and progression.
-- Bracket I, existing campaigns, deck imports, player names, statistics and themes are preserved.
-- Live repair validates the replacement, stops and waits for the identified game service, and then replaces its program folder. Saves stay outside the replaced files.
-- Recovery handles unresponsive owned services, rejects unrelated processes, prevents simultaneous setup and reports folder locks clearly.
-
-Open **Hold The Line → II · Impossible Realms** for Bracket II. Practice and host progression settings are available alongside the normal unlock route.
+- Hold The Line has 23 factions and 4,600 cards. Bracket II adds ten factions and 2,000 executable card definitions
 
 [Release notes and verification](V23-RELEASE-NOTES.md)
 
@@ -21,7 +16,7 @@ Open **Hold The Line → II · Impossible Realms** for Bracket II. Practice and 
 
 ## Working with this repository
 
-The V23 CMD is stored with Git LFS because it is approximately 155 MiB. Use the download link above to obtain the actual installer. A Git LFS pointer is a short text file, not the installer.
+Use the download link above to obtain the actual installer.
 
 To clone and edit locally with Git LFS installed:
 
@@ -32,4 +27,4 @@ cd MTG-Forge-Installer
 git lfs pull
 ```
 
-After making changes, commit and push normally. Git LFS transfers the installer payload automatically. Keep generated runtime caches, logs and personal campaign data out of this repository.
+
