@@ -10,7 +10,7 @@ The installer includes MTG Forge, Archidekt deck import and sync, A Betting Man,
 
 - Added Artwork for accolades introduced in V25
 
-## V26
+## V25
 
 - Added Accolades and perks
 
