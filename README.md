@@ -6,6 +6,10 @@ Download the file above and run it on Windows. You only need the CMD.
 
 The installer includes MTG Forge, Archidekt deck import and sync, A Betting Man, Hold The Line, and the university development tools for Python, VS Code and React.
 
+## V28
+
+- Added Animations For Various Actions In Hold The Line Game Mode
+
 ## V27
 
 - Performance Improvements
