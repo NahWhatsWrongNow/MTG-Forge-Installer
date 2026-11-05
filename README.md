@@ -6,6 +6,14 @@ Download the file above and run it on Windows. You only need the CMD.
 
 The installer includes MTG Forge, Archidekt deck import and sync, A Betting Man, Hold The Line, and the university development tools for Python, VS Code and React.
 
+## V26
+
+- Added Artwork for accolades introduced in V25
+
+## V26
+
+- Added Accolades and perks
+
 ## V24
 
 - Hold The Line now has an economy run by a new currency called Vowglass obtained through selling Accolades which you earn from battles.
