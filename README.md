@@ -1,6 +1,6 @@
 # Jadon's Ultimate Installer
 
-[Download V28 — one CMD file](https://github.com/NahWhatsWrongNow/MTG-Forge-Installer/raw/refs/heads/main/Jadons%20Ultimate%20Installer%20v28.cmd)
+[Download V29 — one CMD file](https://github.com/NahWhatsWrongNow/MTG-Forge-Installer/raw/refs/heads/main/Jadons%20Ultimate%20Installer%20v29.cmd)
 
 Download the file above and run it on Windows. You only need the CMD.
 
