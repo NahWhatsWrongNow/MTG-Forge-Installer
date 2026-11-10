@@ -1,12 +1,21 @@
 # Jadon's Ultimate Installer
 
-[Download V38 - one CMD file](https://github.com/NahWhatsWrongNow/MTG-Forge-Installer/raw/f8000ca1b4ab499401cc8e7123fd525194eea8c4/Jadons%20Ultimate%20Installer%20v38.cmd)
+[Download V40 - one CMD file](https://github.com/NahWhatsWrongNow/MTG-Forge-Installer/raw/f72507ba9cf497c6bcbf5b17de6d42341d64293b/Jadons%20Ultimate%20Installer%20v40.cmd)
 
 Download the file above and run it on Windows. You only need the CMD.
 
 The installer includes MTG Forge, Archidekt deck import and sync, A Betting Man, Hold The Line, and the university development tools for Python, VS Code and React.
 
 ## Changelog
+
+### V40
+
+- Added Forge sync and Companion Mode
+- Added in-match sandbox tools and practice targets
+- Added accolade overflow and unlimited equipped perks
+- Improved Public Board tracking
+
+Cross-lane effects and shared Forge effects use manual confirmation.
 
 ### V39 (local build)
 
