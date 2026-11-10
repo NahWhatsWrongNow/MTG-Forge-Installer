@@ -1,12 +1,17 @@
 # Jadon's Ultimate Installer
 
-[Download V41 - one CMD file](https://github.com/NahWhatsWrongNow/MTG-Forge-Installer/raw/c8e3bca34df12850a90b4ef646d0eb661f10b8a0/Jadons%20Ultimate%20Installer%20v41.cmd)
+[Download V42 - one CMD file](https://github.com/NahWhatsWrongNow/MTG-Forge-Installer/raw/3d28245b434dde878dc694569dcd0de23e575ede/Jadons%20Ultimate%20Installer%20v42.cmd)
 
 Download the file above and run it on Windows. You only need the CMD.
 
 The installer includes MTG Forge, Archidekt deck import and sync, A Betting Man, Hold The Line, and the university development tools for Python, VS Code and React.
 
 ## Changelog
+
+### V42
+
+- Added native Public Board effects for Akroma's Memorial and Doubling Season
+- Improved Public Board sharing and source tracking
 
 ### V41
 
