@@ -1,12 +1,19 @@
 # Jadon's Ultimate Installer
 
-[Download V42 - one CMD file](https://github.com/NahWhatsWrongNow/MTG-Forge-Installer/raw/3d28245b434dde878dc694569dcd0de23e575ede/Jadons%20Ultimate%20Installer%20v42.cmd)
+[Download V43 - one CMD file](https://github.com/NahWhatsWrongNow/MTG-Forge-Installer/raw/0dd1d0aa0b7708284abc2bf731e2cbd9471ce306/Jadons%20Ultimate%20Installer%20v43.cmd)
 
 Download the file above and run it on Windows. You only need the CMD.
 
 The installer includes MTG Forge, Archidekt deck import and sync, A Betting Man, Hold The Line, and the university development tools for Python, VS Code and React.
 
 ## Changelog
+
+### V43
+
+- Fixed Forge snapshot downloads and repairs
+- Fixed Hold The Line updates
+- Added replacement prompts
+- Added cross-lane Forge actions
 
 ### V42
 
