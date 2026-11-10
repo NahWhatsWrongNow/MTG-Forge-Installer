@@ -1,12 +1,19 @@
 # Jadon's Ultimate Installer
 
-[Download V40 - one CMD file](https://github.com/NahWhatsWrongNow/MTG-Forge-Installer/raw/f72507ba9cf497c6bcbf5b17de6d42341d64293b/Jadons%20Ultimate%20Installer%20v40.cmd)
+[Download V41 - one CMD file](https://github.com/NahWhatsWrongNow/MTG-Forge-Installer/raw/c8e3bca34df12850a90b4ef646d0eb661f10b8a0/Jadons%20Ultimate%20Installer%20v41.cmd)
 
 Download the file above and run it on Windows. You only need the CMD.
 
 The installer includes MTG Forge, Archidekt deck import and sync, A Betting Man, Hold The Line, and the university development tools for Python, VS Code and React.
 
 ## Changelog
+
+### V41
+
+- Added linked monster practice targets in Forge
+- Improved monster board syncing
+
+Host outcomes still require confirmation in Ascent.
 
 ### V40
 
