@@ -16,3 +16,4 @@ Jadons[[:space:]]Ultimate[[:space:]]Installer[[:space:]]v37.cmd filter=lfs diff=
 Jadons[[:space:]]Ultimate[[:space:]]Installer[[:space:]]v38.cmd filter=lfs diff=lfs merge=lfs -text
 Jadons[[:space:]]Ultimate[[:space:]]Installer[[:space:]]v40.cmd filter=lfs diff=lfs merge=lfs -text
 Jadons[[:space:]]Ultimate[[:space:]]Installer[[:space:]]v41.cmd filter=lfs diff=lfs merge=lfs -text
+Jadons[[:space:]]Ultimate[[:space:]]Installer[[:space:]]v42.cmd filter=lfs diff=lfs merge=lfs -text
