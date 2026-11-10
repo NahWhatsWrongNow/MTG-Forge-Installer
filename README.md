@@ -6,33 +6,91 @@ Download the file above and run it on Windows. You only need the CMD.
 
 The installer includes MTG Forge, Archidekt deck import and sync, A Betting Man, Hold The Line, and the university development tools for Python, VS Code and React.
 
-## V36
+## Changelog
 
-- Added Forge Support For Hold The Line To Play Against A Passive Opponent That Yields Every Turn
+### V39 (local build)
 
-## V28
+- Expanded the Bastion Atlas perks
+- Added perk controls to Ascent battles
+- Fixed sprite playback
 
-- Added Animations For Various Actions In Hold The Line Game Mode
+### V38
 
-## V27
+- Made Ascent the default mode
+- Added Ascent-wide accolade loadouts
+- Fixed player names in battle statistics
 
-- Performance Improvements
+### V37
 
-## V26
+- Added accolade tracking in Forge
+- Improved battlefield accolade controls
+- Updated boss, mill, and upgrade effects
 
-- Added Artwork for accolades introduced in V25
+### V36
 
-## V25
+- Added a dark interface for Forge Support
 
-- Added Accolades and perks
+### V35
 
-## V24
+- Added Forge sandbox controls
+- Added Passive AI
 
-- Hold The Line now has an economy run by a new currency called Vowglass obtained through selling Accolades which you earn from battles.
+### V34
 
-## V23
+- Added desktop shortcut setup
 
-- Hold The Line has 23 factions and 4,600 cards. Bracket II adds ten factions and 2,000 executable card definitions
+### V33
+
+- Made the Forge snapshot the default install
+- Added optional AI Viewer and Hold The Line support setup
+
+### V32
+
+- Improved animation compatibility on university PCs
+- Added motion and quality controls
+
+### V31
+
+- Added Bracket III deck box artwork
+
+### V30
+
+- Added Bracket III decks and progression
+- Fixed resuming saved battles
+
+### V29
+
+- Improved installer and launcher speed
+- Made the loading screen appear sooner
+
+### V28
+
+- Added battlefield animations
+- Added individual effect controls
+
+### V27
+
+- Made Legacy fullscreen
+- Improved the perk layout and performance
+
+### V26
+
+- Added accolade artwork and stage sprites
+
+### V25
+
+- Redesigned the Bastion Atlas
+- Added the Vowglass emblem
+
+### V24
+
+- Added Legacy progression, accolades, and Vowglass
+- Grouped attackers by lane in the blockers screen
+
+### V23
+
+- Added Bracket II decks and progression
+- Fixed Hold The Line repair
 
 **V23 SHA-256:** `07031B08E5E7EDBB1690D42D2FEEC3E9D80C178B9317BC952523F98FBF018E78`
 
