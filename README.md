@@ -2,9 +2,9 @@
 
 [Download V43 - one CMD file](https://github.com/NahWhatsWrongNow/MTG-Forge-Installer/raw/0dd1d0aa0b7708284abc2bf731e2cbd9471ce306/Jadons%20Ultimate%20Installer%20v43.cmd)
 
-**Beta builds:** [Download V44 Beta - one CMD file](https://github.com/NahWhatsWrongNow/MTG-Forge-Installer/raw/ed94fa72699c8c04789575467108f16059c4394b/Jadons%20Ultimate%20Installer%20v44%20Beta.cmd)
+**Beta builds:** [Download V44 Beta - one CMD file](https://github.com/NahWhatsWrongNow/MTG-Forge-Installer/raw/ffabbba08d9cfd13997a4b1d5fba1a923e72c2a6/Jadons%20Ultimate%20Installer%20v44%20Beta.cmd)
 
-V43 remains the stable release. The latest V44 beta changes have not been gameplay-tested.
+V43 remains the stable release. Full V44 gameplay acceptance is still in progress.
 
 Download the file above and run it on Windows. You only need the CMD.
 
@@ -15,8 +15,10 @@ The installer includes MTG Forge, Archidekt deck import and sync, A Betting Man,
 ### V44 Beta
 
 - Updated Legacy and Vowglass rewards
-- Added Forge console options and deck selection
-- Added bulk spawning controls
+- Added full Companion controls
+- Added alternative animation playback
+- Expanded Forge sandbox tools
+- Improved accolade tracking
 - Improved syncing, statistics and recovery
 
 ### V43
