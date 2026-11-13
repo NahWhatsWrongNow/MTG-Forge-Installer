@@ -14,37 +14,41 @@ jobs:
           persist-credentials: false
       - name: Fetch only V44 package
         run: git lfs pull --include='Jadons Ultimate Installer v44 Beta.cmd' --exclude=''
-      - name: Inspect bundle structure (read-only)
+      - name: Inspect embedded Hold The Line payload (read-only)
         shell: python
         run: |
+          import re,io,base64,zipfile,hashlib,sys
           from pathlib import Path
-          import zipfile, mmap, collections, sys, re
-          p = Path("Jadons Ultimate Installer v44 Beta.cmd")
-          print("PACKAGE SIZE", p.stat().st_size)
-          with p.open("rb") as f, mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ) as mm:
-              print("HEAD", repr(mm[:1800]))
-              print("TAIL", repr(mm[-350:]))
-              for needle in [b"PK\x03\x04", b"7z\xbc\xaf\x27\x1c", b"Rar!", b"MZ", b"forge", b"Forge", b"hold", b"Hold", b".ps1", b"plugin", b"snapshot"]:
-                  offsets=[]; pos=0
-                  for i in range(15):
-                      pos=mm.find(needle,pos)
-                      if pos<0: break
-                      offsets.append(pos); pos+=len(needle)
-                  print("SIGNATURE", repr(needle), offsets)
-          print("IS_ZIP", zipfile.is_zipfile(p))
-          if zipfile.is_zipfile(p):
-              with zipfile.ZipFile(p) as z:
+          p=Path("Jadons Ultimate Installer v44 Beta.cmd")
+          with p.open("rb") as f:
+              head=f.read(1000000)
+              print("HEADER_START",repr(head[:6800]))
+              m=re.search(rb'V32_HOLD_OFFSET=(\d+)',head)
+              if not m: raise RuntimeError("missing embedded-payload marker")
+              offset=int(m.group(1))
+              print("OFFSET",offset,"BEFORE",repr(head[offset-120:offset]),"AFTER",repr(head[offset:offset+120]))
+              f.seek(offset)
+              encoded=f.read().strip()
+              print("ENCODED",len(encoded),"ALPHABET",repr(sorted(set(encoded)-set(b"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=\r\n"))[:30]))
+          try:
+              decoded=base64.b64decode(encoded)
+              print("DECODED",len(decoded),repr(decoded[:64]),repr(decoded[-40:]))
+              print("ZIP",zipfile.is_zipfile(io.BytesIO(decoded)))
+              with zipfile.ZipFile(io.BytesIO(decoded)) as z:
                   names=z.namelist()
-                  print("ZIP COUNT", len(names))
-                  print("ZIP FIRST", names[:60])
-                  hits=[(n,z.getinfo(n).file_size) for n in names if any(s in n.lower() for s in ("forge","hold","installer","plugin","snapshot","support","manifest",".ps1",".cmd",".bat"))]
-                  print("ZIP RELEVANT",hits[:220])
-                  for name in names:
-                      if name.lower().endswith((".cmd",".bat",".ps1",".json",".ini",".txt")) and any(s in name.lower() for s in ("installer","manifest","forge","hold","setup","config")):
+                  print("FILES COUNT",len(names))
+                  print("FILES FIRST",names[:80])
+                  interesting=[(n,z.getinfo(n).file_size) for n in names if any(q in n.lower() for q in ("forge","hold","plugin","installer","support","bridge","manifest","setup"))]
+                  print("INTERESTING",repr(interesting[:220])[:24000])
+                  for n in names:
+                      if n.lower().endswith((".cmd",".bat",".ps1",".json",".txt",".ini",".py")) and (any(q in n.lower() for q in ("forge","hold","plugin","installer","manifest","setup","support","bridge")) or n.lower() in ("bundle-manifest.json","engine.cmd")):
+                          info=z.getinfo(n)
+                          if info.file_size>500000:continue
                           try:
-                              if z.getinfo(name).file_size>150000:continue
-                              b=z.read(name)
-                              t=b.decode("utf-8","replace")
-                              matches=[line for line in t.splitlines() if any(x in line.lower() for x in ("forge", "snapshot", "hold the line", "releases", "version", "github", "install"))]
-                              print("TEXT HITS",name,"bytes",len(b),"lines",len(matches),repr("\n".join(matches[:60]))[:10000])
-                          except Exception as ex:print("ERROR",name,type(ex).__name__,str(ex)[:300])
+                              t=z.read(n).decode("utf-8","replace")
+                              matches=[l for l in t.splitlines() if any(q in l.lower() for q in ("forge", "snapshot", "hold the line", "release", "version", "github", "plugin", "install"))]
+                              print("FILE",n,"BYTES",info.file_size,"MATCHES",len(matches),repr("\n".join(matches[:80]))[:14000])
+                          except Exception as ex: print("ERROR",n,repr(ex))
+          except Exception as ex:
+              print("UNPACK_ERROR",type(ex).__name__,str(ex))
+              raise
