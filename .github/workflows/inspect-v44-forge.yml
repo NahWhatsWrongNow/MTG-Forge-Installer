@@ -10,8 +10,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          lfs: true
+          lfs: false
           persist-credentials: false
+      - name: Fetch only V44 package
+        run: git lfs pull --include='Jadons Ultimate Installer v44 Beta.cmd' --exclude=''
       - name: Inspect bundle structure (read-only)
         shell: python
         run: |
