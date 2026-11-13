@@ -14,50 +14,34 @@ jobs:
           persist-credentials: false
       - name: Fetch only V44 package
         run: git lfs pull --include='Jadons Ultimate Installer v44 Beta.cmd' --exclude=''
-      - name: Inspect installer engine and Hold The Line compatibility (read-only)
+      - name: Inspect only Hold The Line compatibility-plugin implementation
         shell: python
         run: |
           from pathlib import Path
-          import re,base64,zipfile,io,json
+          import re,base64,zipfile,io
           p=Path("Jadons Ultimate Installer v44 Beta.cmd")
-          with p.open("rb") as f: head=f.read(1000000)
+          head=p.open("rb").read(1000000)
           m=re.search(rb"###JADON_V32_PACK_BEGIN###\r?\n(.*?)###JADON_V32_PACK_END###",head,re.S)
-          if not m: raise RuntimeError("Installer engine was not found")
-          engine_zip=base64.b64decode(m.group(1))
-          with zipfile.ZipFile(io.BytesIO(engine_zip)) as z:
-              print("ENGINE ZIP",z.namelist())
-              engine=z.read("engine.cmd")
-          print("ENGINE LENGTH",len(engine))
-          text=engine.decode("utf-8","replace")
+          with zipfile.ZipFile(io.BytesIO(base64.b64decode(m.group(1)))) as z:
+              text=z.read("engine.cmd").decode("utf-8","replace")
           lines=text.splitlines()
-          print("ENGINE LINE COUNT",len(lines))
-          print("ENGINE FIRST 65",repr("\n".join(f"{i+1}: {l}" for i,l in enumerate(lines[:65])))[:9000])
-          seen=set()
-          patterns=("forge","snapshot","install-forge","forgeversion","forge_version","releases/latest","forge-2.0","forge.zip","forge.jar")
-          indices=[i for i,l in enumerate(lines) if any(q in l.lower() for q in patterns)]
-          print("ENGINE MATCH COUNT",len(indices))
-          for i in indices[:180]:
-              if i in seen:continue
-              lo=max(0,i-2);hi=min(len(lines),i+4)
-              print("ENGINE_CONTEXT",i+1,repr("\n".join(f"{j+1}: {lines[j]}" for j in range(lo,hi)))[:3500])
-              seen.add(i)
-          data=p.read_bytes()
-          offset=int(re.search(rb"V32_HOLD_OFFSET=(\d+)",head).group(1))
-          decoded=base64.b64decode(data[offset:].strip())
-          with zipfile.ZipFile(io.BytesIO(decoded)) as z:
-              for n in ("bundle-manifest.json","package.json","forge-bridge.mjs","forge-workspace.js"):
-                  print("HOLD FILE",n)
-                  val=z.read(n).decode("utf-8","replace")
-                  if n.endswith(".json"):
-                      try:
-                          js=json.loads(val)
-                          if n=="bundle-manifest.json": print("MANIFEST TOP",list(js.keys()));print("MANIFEST META",str({k:v for k,v in js.items() if k not in ("files","entries","assets","checksums")})[:7000])
-                          else:print("PACKAGE JSON",val[:5000])
-                      except:print(val[:1500])
-                  else:
-                      ls=val.splitlines()
-                      hits=[i for i,l in enumerate(ls) if any(q in l.lower() for q in ("forge version","forge-version","version", "card-forge","releases","snapshot","forge bridge","forge.exe","forge.jar"))]
-                      print("HOLD MATCH COUNT",len(hits))
-                      for i in hits[:60]:
-                          lo=max(0,i-1);hi=min(len(ls),i+3)
-                          print("HOLD_CONTEXT",n,i+1,repr("\n".join(f"{j+1}: {ls[j]}" for j in range(lo,hi)))[:1400])
+          marker="###JADON_HTL_SUPPORT_BEGIN###"
+          mark=[i for i,l in enumerate(lines) if marker in l]
+          print("PLUGIN MARKERS",mark)
+          for i in mark:
+              if lines[i].strip()==marker:
+                  end=next((j for j in range(i+1,len(lines)) if lines[j].strip()=="###JADON_HTL_SUPPORT_END###"),len(lines))
+                  print("PLUGIN RANGE",i+1,end+1,"LENGTH",end-i)
+                  pl=lines[i+1:end]
+                  words=("latest","version","release","snapshot","forge","github","download","jar","checksum","installer","plugin")
+                  hits=[j for j,l in enumerate(pl) if any(w in l.lower() for w in words)]
+                  print("PLUGIN MATCH COUNT",len(hits))
+                  for j in hits[:160]:
+                      a=max(0,j-1);b=min(len(pl),j+3)
+                      print("PLUGIN",i+j+2,repr("\n".join(f"{i+k+2}: {pl[k]}" for k in range(a,b)))[:1350])
+          for start,end in ((439,472),(8750,8796),(9490,9550)):
+              print("OTHER SECTION",start,end,repr("\n".join(f"{i+1}: {lines[i]}" for i in range(start-1,min(end,len(lines)))))[:20000])
+          print("VERSION_URL_OCCURRENCES")
+          for i,l in enumerate(lines):
+              if "Card-Forge" in l or "releases/latest" in l or "forge-2." in l or "star trek" in l.lower() or "forge-installer-" in l or "forge-gui-desktop-" in l:
+                  print("REFERENCE",i+1,repr(l)[:900])
