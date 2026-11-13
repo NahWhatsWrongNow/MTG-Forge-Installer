@@ -1,8 +1,7 @@
 name: Inspect V44 Forge downloader
 on:
   push:
-    branches:
-      - fix/v44-star-trek-release
+    branches: [fix/v44-star-trek-release]
 jobs:
   inspect:
     runs-on: ubuntu-latest
@@ -12,36 +11,22 @@ jobs:
         with:
           lfs: false
           persist-credentials: false
-      - name: Fetch only V44 package
+      - name: Fetch V44 installer
         run: git lfs pull --include='Jadons Ultimate Installer v44 Beta.cmd' --exclude=''
-      - name: Inspect only Hold The Line compatibility-plugin implementation
+      - name: Inspect version handling and compatibility fingerprints
         shell: python
         run: |
+          import re,io,zipfile,base64
           from pathlib import Path
-          import re,base64,zipfile,io
           p=Path("Jadons Ultimate Installer v44 Beta.cmd")
           head=p.open("rb").read(1000000)
           m=re.search(rb"###JADON_V32_PACK_BEGIN###\r?\n(.*?)###JADON_V32_PACK_END###",head,re.S)
           with zipfile.ZipFile(io.BytesIO(base64.b64decode(m.group(1)))) as z:
-              text=z.read("engine.cmd").decode("utf-8","replace")
-          lines=text.splitlines()
-          marker="###JADON_HTL_SUPPORT_BEGIN###"
-          mark=[i for i,l in enumerate(lines) if marker in l]
-          print("PLUGIN MARKERS",mark)
-          for i in mark:
-              if lines[i].strip()==marker:
-                  end=next((j for j in range(i+1,len(lines)) if lines[j].strip()=="###JADON_HTL_SUPPORT_END###"),len(lines))
-                  print("PLUGIN RANGE",i+1,end+1,"LENGTH",end-i)
-                  pl=lines[i+1:end]
-                  words=("latest","version","release","snapshot","forge","github","download","jar","checksum","installer","plugin")
-                  hits=[j for j,l in enumerate(pl) if any(w in l.lower() for w in words)]
-                  print("PLUGIN MATCH COUNT",len(hits))
-                  for j in hits[:160]:
-                      a=max(0,j-1);b=min(len(pl),j+3)
-                      print("PLUGIN",i+j+2,repr("\n".join(f"{i+k+2}: {pl[k]}" for k in range(a,b)))[:1350])
-          for start,end in ((439,472),(8750,8796),(9490,9550)):
-              print("OTHER SECTION",start,end,repr("\n".join(f"{i+1}: {lines[i]}" for i in range(start-1,min(end,len(lines)))))[:20000])
-          print("VERSION_URL_OCCURRENCES")
-          for i,l in enumerate(lines):
-              if "Card-Forge" in l or "releases/latest" in l or "forge-2." in l or "star trek" in l.lower() or "forge-installer-" in l or "forge-gui-desktop-" in l:
-                  print("REFERENCE",i+1,repr(l)[:900])
+              lines=z.read("engine.cmd").decode("utf-8","replace").splitlines()
+          for first,last in ((905,965),(994,1060),(9100,9190),(9380,9490),(9548,9667)):
+              print("SECTION",first,last)
+              for j in range(first-1,last):
+                  if j>=len(lines):break
+                  v=lines[j]
+                  if len(v)>350:v=v[:350]+"...[truncated]"
+                  print(f"CODE {j+1}: {v}")
