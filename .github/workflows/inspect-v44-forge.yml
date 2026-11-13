@@ -2,31 +2,62 @@ name: Inspect V44 Forge downloader
 on:
   push:
     branches: [fix/v44-star-trek-release]
+permissions:
+  contents: read
 jobs:
   inspect:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
         with:
           lfs: false
           persist-credentials: false
-      - name: Fetch V44 installer
-        run: git lfs pull --include='Jadons Ultimate Installer v44 Beta.cmd' --exclude=''
-      - name: Inspect version handling and compatibility fingerprints
-        shell: python
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Inspect Star Trek release compatibility with bundled overlay
+        shell: bash
         run: |
-          import re,io,zipfile,base64
+          set -euo pipefail
+          URL='https://github.com/Card-Forge/forge/releases/download/forge-2.0.16/forge-installer-2.0.16.jar'
+          curl --retry 3 --retry-delay 2 -fL --connect-timeout 30 --max-time 600 -o forge-installer-2.0.16.jar "$URL"
+          echo '8731e0ffee35ea93c6c8dbfabce8a651bdeeb49021da9362e5c1434126d65bd6  forge-installer-2.0.16.jar' | sha256sum -c -
+          printf 'INSTALL_PATH=%s/forge-output\n' "$GITHUB_WORKSPACE" > defaults
+          echo 'Installer JAR entries of interest:'
+          unzip -Z1 forge-installer-2.0.16.jar | grep -E '(forge-gui-desktop|\.pack$|\.jar$)' | head -60 || true
+          echo 'Installing into an isolated temp directory (not user data)...'
+          timeout 420 java -jar forge-installer-2.0.16.jar -defaults-file defaults -auto > forge-install.log 2>&1 || echo "INSTALLER_EXIT=$?"
+          tail -50 forge-install.log || true
+          python - <<'PY'
           from pathlib import Path
-          p=Path("Jadons Ultimate Installer v44 Beta.cmd")
-          head=p.open("rb").read(1000000)
-          m=re.search(rb"###JADON_V32_PACK_BEGIN###\r?\n(.*?)###JADON_V32_PACK_END###",head,re.S)
-          with zipfile.ZipFile(io.BytesIO(base64.b64decode(m.group(1)))) as z:
-              lines=z.read("engine.cmd").decode("utf-8","replace").splitlines()
-          for first,last in ((905,965),(994,1060),(9100,9190),(9380,9490),(9548,9667)):
-              print("SECTION",first,last)
-              for j in range(first-1,last):
-                  if j>=len(lines):break
-                  v=lines[j]
-                  if len(v)>350:v=v[:350]+"...[truncated]"
-                  print(f"CODE {j+1}: {v}")
+          import hashlib,zipfile
+          expected={
+          'forge/menus/ForgeMenu.class':'491644D6E5FE2FFED1A812AF86B2C32A6865B60FDBBDBDCD2AD9152350E1FC34',
+          'forge/menus/ForgeMenu$1.class':'A6C23E868071CF73DD986290FCE35BA69A289BB4B0BD05E1A12096EACAD3F492',
+          'forge/ai/LobbyPlayerAi.class':'69A1D673D55B7975DB64C2EE5AD5F108CFCF0C559B7E6F00ED428854E7CCC7AD',
+          'forge/ai/AiProfileUtil.class':'ECD669BFC5B62468E6C43DA742D882C2996514A29F6459F765A4C9EC43762045',
+          'forge/ai/AiProfileUtil$AISideboardingMode.class':'46F0502AA91494194CF0BB6B75034ACBFC5C91F8CE3CAC2D71474774325AED50',
+          'forge/gamemodes/match/input/InputPassPriority.class':'BE50DBA7E9108AC26B8A7C53B9680BB148D2AA84F010C5504C78E31ECCC82B85',
+          'forge/game/trigger/TriggerHandler.class':'FEA7045A075FF214D6442427BF87A0A51829853856FC8FC76585104246F39EAA',
+          'forge/game/spellability/SpellAbilityProperty.class':'9C67EADD83B26ED1348BD441160239CDAF033006FF8CF4370BA8A1A0979C1822',
+          'forge/screens/match/VMatchUI.class':'5AC6697DADA71AB1BD0053663659C4C71BEA0D53DA603243BD47BC018BDFB8E4',
+          'forge/screens/match/views/VDev.class':'316B1E682C1BF233F2128989CDAC62798D90E25A8D7EDC98AAD840096472B4B1',
+          'forge/screens/match/views/VDev$DevLabel.class':'7DDB308A8F58AB490E759D0451489DF6A23762BC18903C5EA17D7EECB072F5CE',
+          'forge/screens/match/views/VDev$DevLabel$1.class':'6342D5A52DB044A8761AE5D9716D6D02EA3430D8D4857737A434462F3B92E0D9'
+          }
+          jars=list(Path('forge-output').rglob('forge-gui-desktop-*-jar-with-dependencies.jar'))
+          print("DESKTOP JARS",[(str(j),j.stat().st_size) for j in jars])
+          for jar in jars:
+              with zipfile.ZipFile(jar) as z:
+                  valid=0
+                  for name,digest in expected.items():
+                      if name not in z.namelist():print("MISSING_CLASS",name);continue
+                      actual=hashlib.sha256(z.read(name)).hexdigest().upper()
+                      ok=actual==digest
+                      print("CLASS",name,actual,"MATCH",ok)
+                      valid+=ok
+                  print("COMPATIBILITY",valid,"/",len(expected))
+          if not jars:print("NO_DESKTOP_JAR_EXTRACTED")
+          PY
