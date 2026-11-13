@@ -1,0 +1,32 @@
+name: Inspect V44 Forge downloader
+on:
+  push:
+    branches:
+      - fix/v44-star-trek-release
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+          persist-credentials: false
+      - name: Inspect Forge download references (read-only)
+        shell: python
+        run: |
+          import mmap
+          from pathlib import Path
+          p = Path("Jadons Ultimate Installer v44 Beta.cmd")
+          print("SIZE", p.stat().st_size)
+          needles = [b"Card-Forge", b"card-forge", b"forge-installer", b"forge-gui-desktop", b"forge/releases", b"ForgeSnapshot", b"forge_snapshot", b"snapshot", b"api.github.com/repos"]
+          with p.open("rb") as f, mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ) as mm:
+              for needle in needles:
+                  print("SEARCH", needle.decode("ascii"))
+                  pos = 0
+                  for i in range(15):
+                      pos = mm.find(needle, pos)
+                      if pos < 0: break
+                      chunk = mm[max(0, pos-250):min(len(mm), pos+450)]
+                      print("OFFSET", pos, repr(chunk.decode("utf-8", "replace"))[:1300])
+                      pos += len(needle)
