@@ -10,25 +10,39 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          lfs: false
+          lfs: true
           persist-credentials: false
-      - name: Fetch only V44 Beta LFS content
-        run: git lfs pull --include='Jadons Ultimate Installer v44 Beta.cmd' --exclude=''
-      - name: Inspect Forge download references (read-only)
+      - name: Inspect bundle structure (read-only)
         shell: python
         run: |
-          import mmap
           from pathlib import Path
+          import zipfile, mmap, collections, sys, re
           p = Path("Jadons Ultimate Installer v44 Beta.cmd")
-          print("SIZE", p.stat().st_size)
-          needles = [b"Card-Forge", b"card-forge", b"forge-installer", b"forge-gui-desktop", b"forge/releases", b"ForgeSnapshot", b"forge_snapshot", b"snapshot", b"api.github.com/repos"]
+          print("PACKAGE SIZE", p.stat().st_size)
           with p.open("rb") as f, mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ) as mm:
-              for needle in needles:
-                  print("SEARCH", needle.decode("ascii"))
-                  pos = 0
+              print("HEAD", repr(mm[:1800]))
+              print("TAIL", repr(mm[-350:]))
+              for needle in [b"PK\x03\x04", b"7z\xbc\xaf\x27\x1c", b"Rar!", b"MZ", b"forge", b"Forge", b"hold", b"Hold", b".ps1", b"plugin", b"snapshot"]:
+                  offsets=[]; pos=0
                   for i in range(15):
-                      pos = mm.find(needle, pos)
-                      if pos < 0: break
-                      chunk = mm[max(0, pos-250):min(len(mm), pos+450)]
-                      print("OFFSET", pos, repr(chunk.decode("utf-8", "replace"))[:1300])
-                      pos += len(needle)
+                      pos=mm.find(needle,pos)
+                      if pos<0: break
+                      offsets.append(pos); pos+=len(needle)
+                  print("SIGNATURE", repr(needle), offsets)
+          print("IS_ZIP", zipfile.is_zipfile(p))
+          if zipfile.is_zipfile(p):
+              with zipfile.ZipFile(p) as z:
+                  names=z.namelist()
+                  print("ZIP COUNT", len(names))
+                  print("ZIP FIRST", names[:60])
+                  hits=[(n,z.getinfo(n).file_size) for n in names if any(s in n.lower() for s in ("forge","hold","installer","plugin","snapshot","support","manifest",".ps1",".cmd",".bat"))]
+                  print("ZIP RELEVANT",hits[:220])
+                  for name in names:
+                      if name.lower().endswith((".cmd",".bat",".ps1",".json",".ini",".txt")) and any(s in name.lower() for s in ("installer","manifest","forge","hold","setup","config")):
+                          try:
+                              if z.getinfo(name).file_size>150000:continue
+                              b=z.read(name)
+                              t=b.decode("utf-8","replace")
+                              matches=[line for line in t.splitlines() if any(x in line.lower() for x in ("forge", "snapshot", "hold the line", "releases", "version", "github", "install"))]
+                              print("TEXT HITS",name,"bytes",len(b),"lines",len(matches),repr("\n".join(matches[:60]))[:10000])
+                          except Exception as ex:print("ERROR",name,type(ex).__name__,str(ex)[:300])
