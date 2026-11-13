@@ -14,41 +14,50 @@ jobs:
           persist-credentials: false
       - name: Fetch only V44 package
         run: git lfs pull --include='Jadons Ultimate Installer v44 Beta.cmd' --exclude=''
-      - name: Inspect embedded Hold The Line payload (read-only)
+      - name: Inspect installer engine and Hold The Line compatibility (read-only)
         shell: python
         run: |
-          import re,io,base64,zipfile,hashlib,sys
           from pathlib import Path
+          import re,base64,zipfile,io,json
           p=Path("Jadons Ultimate Installer v44 Beta.cmd")
-          with p.open("rb") as f:
-              head=f.read(1000000)
-              print("HEADER_START",repr(head[:6800]))
-              m=re.search(rb'V32_HOLD_OFFSET=(\d+)',head)
-              if not m: raise RuntimeError("missing embedded-payload marker")
-              offset=int(m.group(1))
-              print("OFFSET",offset,"BEFORE",repr(head[offset-120:offset]),"AFTER",repr(head[offset:offset+120]))
-              f.seek(offset)
-              encoded=f.read().strip()
-              print("ENCODED",len(encoded),"ALPHABET",repr(sorted(set(encoded)-set(b"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=\r\n"))[:30]))
-          try:
-              decoded=base64.b64decode(encoded)
-              print("DECODED",len(decoded),repr(decoded[:64]),repr(decoded[-40:]))
-              print("ZIP",zipfile.is_zipfile(io.BytesIO(decoded)))
-              with zipfile.ZipFile(io.BytesIO(decoded)) as z:
-                  names=z.namelist()
-                  print("FILES COUNT",len(names))
-                  print("FILES FIRST",names[:80])
-                  interesting=[(n,z.getinfo(n).file_size) for n in names if any(q in n.lower() for q in ("forge","hold","plugin","installer","support","bridge","manifest","setup"))]
-                  print("INTERESTING",repr(interesting[:220])[:24000])
-                  for n in names:
-                      if n.lower().endswith((".cmd",".bat",".ps1",".json",".txt",".ini",".py")) and (any(q in n.lower() for q in ("forge","hold","plugin","installer","manifest","setup","support","bridge")) or n.lower() in ("bundle-manifest.json","engine.cmd")):
-                          info=z.getinfo(n)
-                          if info.file_size>500000:continue
-                          try:
-                              t=z.read(n).decode("utf-8","replace")
-                              matches=[l for l in t.splitlines() if any(q in l.lower() for q in ("forge", "snapshot", "hold the line", "release", "version", "github", "plugin", "install"))]
-                              print("FILE",n,"BYTES",info.file_size,"MATCHES",len(matches),repr("\n".join(matches[:80]))[:14000])
-                          except Exception as ex: print("ERROR",n,repr(ex))
-          except Exception as ex:
-              print("UNPACK_ERROR",type(ex).__name__,str(ex))
-              raise
+          with p.open("rb") as f: head=f.read(1000000)
+          m=re.search(rb"###JADON_V32_PACK_BEGIN###\r?\n(.*?)###JADON_V32_PACK_END###",head,re.S)
+          if not m: raise RuntimeError("Installer engine was not found")
+          engine_zip=base64.b64decode(m.group(1))
+          with zipfile.ZipFile(io.BytesIO(engine_zip)) as z:
+              print("ENGINE ZIP",z.namelist())
+              engine=z.read("engine.cmd")
+          print("ENGINE LENGTH",len(engine))
+          text=engine.decode("utf-8","replace")
+          lines=text.splitlines()
+          print("ENGINE LINE COUNT",len(lines))
+          print("ENGINE FIRST 65",repr("\n".join(f"{i+1}: {l}" for i,l in enumerate(lines[:65])))[:9000])
+          seen=set()
+          patterns=("forge","snapshot","install-forge","forgeversion","forge_version","releases/latest","forge-2.0","forge.zip","forge.jar")
+          indices=[i for i,l in enumerate(lines) if any(q in l.lower() for q in patterns)]
+          print("ENGINE MATCH COUNT",len(indices))
+          for i in indices[:180]:
+              if i in seen:continue
+              lo=max(0,i-2);hi=min(len(lines),i+4)
+              print("ENGINE_CONTEXT",i+1,repr("\n".join(f"{j+1}: {lines[j]}" for j in range(lo,hi)))[:3500])
+              seen.add(i)
+          data=p.read_bytes()
+          offset=int(re.search(rb"V32_HOLD_OFFSET=(\d+)",head).group(1))
+          decoded=base64.b64decode(data[offset:].strip())
+          with zipfile.ZipFile(io.BytesIO(decoded)) as z:
+              for n in ("bundle-manifest.json","package.json","forge-bridge.mjs","forge-workspace.js"):
+                  print("HOLD FILE",n)
+                  val=z.read(n).decode("utf-8","replace")
+                  if n.endswith(".json"):
+                      try:
+                          js=json.loads(val)
+                          if n=="bundle-manifest.json": print("MANIFEST TOP",list(js.keys()));print("MANIFEST META",str({k:v for k,v in js.items() if k not in ("files","entries","assets","checksums")})[:7000])
+                          else:print("PACKAGE JSON",val[:5000])
+                      except:print(val[:1500])
+                  else:
+                      ls=val.splitlines()
+                      hits=[i for i,l in enumerate(ls) if any(q in l.lower() for q in ("forge version","forge-version","version", "card-forge","releases","snapshot","forge bridge","forge.exe","forge.jar"))]
+                      print("HOLD MATCH COUNT",len(hits))
+                      for i in hits[:60]:
+                          lo=max(0,i-1);hi=min(len(ls),i+3)
+                          print("HOLD_CONTEXT",n,i+1,repr("\n".join(f"{j+1}: {ls[j]}" for j in range(lo,hi)))[:1400])
