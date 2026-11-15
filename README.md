@@ -2,7 +2,7 @@
 
 [Download V43 - one CMD file](https://github.com/NahWhatsWrongNow/MTG-Forge-Installer/raw/0dd1d0aa0b7708284abc2bf731e2cbd9471ce306/Jadons%20Ultimate%20Installer%20v43.cmd)
 
-**Beta builds:** [Download V44 Beta - one CMD file](https://github.com/NahWhatsWrongNow/MTG-Forge-Installer/raw/a8c2d58c2dc8c339f881000fe324082b55a41426/Jadons%20Ultimate%20Installer%20v44%20Beta.cmd)
+**Beta builds:** [Download V44 Beta - one CMD file](https://github.com/NahWhatsWrongNow/MTG-Forge-Installer/raw/00e83935bea3bbbcc93d25d4fbd5dfe5c0bf20a3/Jadons%20Ultimate%20Installer%20v44%20Beta.cmd)
 
 V43 remains the stable release. Full V44 gameplay acceptance is still in progress.
 
@@ -14,6 +14,9 @@ The installer includes MTG Forge, Archidekt deck import and sync, A Betting Man,
 
 ### V44 Beta
 
+- Fixed summoning sickness
+- Added experimental deck tools
+- Improved save protection
 - Added new decks
 - Updated boss effects
 - Improved game mechanics
