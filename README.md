@@ -1,6 +1,6 @@
 # Jadon's Ultimate Installer
 
-[Download V45 - one CMD file](https://github.com/NahWhatsWrongNow/MTG-Forge-Installer/raw/0ee57a1f9cc0465bf2c3407a0a807207096483a3/Jadons%20Ultimate%20Installer%20v45.cmd)
+[Download V45 - one CMD file](https://github.com/NahWhatsWrongNow/MTG-Forge-Installer/raw/a2ca233062381293716b554788e19666af038bf4/Jadons%20Ultimate%20Installer%20v45.cmd)
 
 [Download V43 - one CMD file](https://github.com/NahWhatsWrongNow/MTG-Forge-Installer/raw/0dd1d0aa0b7708284abc2bf731e2cbd9471ce306/Jadons%20Ultimate%20Installer%20v43.cmd)
 
