@@ -1,18 +1,25 @@
 # Jadon's Ultimate Installer
 
+[Download V46 - one CMD file](https://github.com/NahWhatsWrongNow/MTG-Forge-Installer/releases/download/V46/Jadons%20Ultimate%20Installer%20v46.cmd)
+
 [Download V45 - one CMD file](https://github.com/NahWhatsWrongNow/MTG-Forge-Installer/raw/1f4037b9e119591f5b54f40c90c80ff6462d6362/Jadons%20Ultimate%20Installer%20v45.cmd)
 
 [Download V43 - one CMD file](https://github.com/NahWhatsWrongNow/MTG-Forge-Installer/raw/0dd1d0aa0b7708284abc2bf731e2cbd9471ce306/Jadons%20Ultimate%20Installer%20v43.cmd)
 
 **Beta builds:** [Download V44 Beta - one CMD file](https://github.com/NahWhatsWrongNow/MTG-Forge-Installer/raw/3d4be7ee978aa5a1d3a3c7cae7bb76a85b8e7b83/Jadons%20Ultimate%20Installer%20v44%20Beta.cmd)
 
-V45 is the latest build. V43 and the previous V44 beta remain available above.
+V46 is the latest release. Previous builds remain available above.
 
 Download the file above and run it on Windows. You only need the CMD.
 
 The installer includes MTG Forge, Archidekt deck import and sync, A Betting Man, Hold The Line, The Backrooms: No Exit, and the university development tools for Python, VS Code and React.
 
 ## Changelog
+
+### V46
+
+- Updated installer release
+- Included the latest mobile modes and Backrooms updates
 
 ### V45
 
