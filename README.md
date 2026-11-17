@@ -1,6 +1,6 @@
 # Jadon's Ultimate Installer
 
-[Download V45 - one CMD file](https://github.com/NahWhatsWrongNow/MTG-Forge-Installer/raw/a2ca233062381293716b554788e19666af038bf4/Jadons%20Ultimate%20Installer%20v45.cmd)
+[Download V45 - one CMD file](https://github.com/NahWhatsWrongNow/MTG-Forge-Installer/raw/1f4037b9e119591f5b54f40c90c80ff6462d6362/Jadons%20Ultimate%20Installer%20v45.cmd)
 
 [Download V43 - one CMD file](https://github.com/NahWhatsWrongNow/MTG-Forge-Installer/raw/0dd1d0aa0b7708284abc2bf731e2cbd9471ce306/Jadons%20Ultimate%20Installer%20v43.cmd)
 
@@ -16,14 +16,13 @@ The installer includes MTG Forge, Archidekt deck import and sync, A Betting Man,
 
 ### V45
 
-- Improved map controls
-- Added grouped Expeditions
-- Added UI themes
-- Improved private cards and traps
-- Simplified turn passing
-- Added Backrooms game mode
-- Added mobile support
-- Improved game saves
+- Added mobile game modes
+- Improved UI and themes
+- Added life and wall controls
+- Expanded Backrooms cards and mechanics
+- Improved game performance
+- Improved offline support
+- Fixed saves and interactions
 
 ### V44 Beta
 
