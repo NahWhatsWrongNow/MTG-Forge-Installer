@@ -1,5 +1,7 @@
 # Jadon's Ultimate Installer
 
+[Download V49 - one CMD file](https://github.com/NahWhatsWrongNow/MTG-Forge-Installer/releases/download/V49/Jadons.Ultimate.Installer.v49.cmd)
+
 [Download V48 - one CMD file](https://github.com/NahWhatsWrongNow/MTG-Forge-Installer/releases/download/V48/Jadons.Ultimate.Installer.v48.cmd)
 
 [Download V47 - one CMD file](https://github.com/NahWhatsWrongNow/MTG-Forge-Installer/releases/download/V47/Jadons.Ultimate.Installer.v47.cmd)
@@ -12,13 +14,21 @@
 
 **Beta builds:** [Download V44 Beta - one CMD file](https://github.com/NahWhatsWrongNow/MTG-Forge-Installer/raw/3d4be7ee978aa5a1d3a3c7cae7bb76a85b8e7b83/Jadons%20Ultimate%20Installer%20v44%20Beta.cmd)
 
-V48 is the latest release. Previous builds remain available above.
+V49 is the latest release. Previous builds remain available above.
 
 Download the file above and run it on Windows. You only need the CMD.
 
 The installer includes MTG Forge, Archidekt deck import and sync, A Betting Man, Hold The Line, The Backrooms: No Exit, and the university development tools for Python, VS Code and React.
 
 ## Changelog
+
+### V49
+
+- Improved swipe controls
+- Added visible counters
+- Improved player menus
+- Fixed narrow layouts
+- Fixed touch controls
 
 ### V48
 
