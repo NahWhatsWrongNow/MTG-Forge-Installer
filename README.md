@@ -10,7 +10,7 @@
 
 **Beta builds:** [Download V44 Beta - one CMD file](https://github.com/NahWhatsWrongNow/MTG-Forge-Installer/raw/3d4be7ee978aa5a1d3a3c7cae7bb76a85b8e7b83/Jadons%20Ultimate%20Installer%20v44%20Beta.cmd)
 
-V46 is the latest release. Previous builds remain available above.
+V47 is the latest release. Previous builds remain available above.
 
 Download the file above and run it on Windows. You only need the CMD.
 
