@@ -1,5 +1,7 @@
 # Jadon's Ultimate Installer
 
+[Download V52.1 - one CMD file](https://github.com/NahWhatsWrongNow/MTG-Forge-Installer/releases/download/V52.1/Jadons.Ultimate.Installer.v52.1.cmd)
+
 [Download V52 - one CMD file](https://github.com/NahWhatsWrongNow/MTG-Forge-Installer/releases/download/V52/Jadons.Ultimate.Installer.v52.cmd)
 
 [Download V51.2 - one CMD file](https://github.com/NahWhatsWrongNow/MTG-Forge-Installer/releases/download/V51.2/Jadons.Ultimate.Installer.v51.2.cmd)
@@ -26,13 +28,21 @@
 
 **Beta builds:** [Download V44 Beta - one CMD file](https://github.com/NahWhatsWrongNow/MTG-Forge-Installer/raw/3d4be7ee978aa5a1d3a3c7cae7bb76a85b8e7b83/Jadons%20Ultimate%20Installer%20v44%20Beta.cmd)
 
-V52 is the latest release. Previous builds remain available above.
+V52.1 is the latest release. Previous builds remain available above.
 
 Download the file above and run it on Windows. You only need the CMD.
 
 The installer includes MTG Forge, Archidekt deck import and sync, A Betting Man, Hold The Line, The Backrooms: No Exit, and the university development tools for Python, VS Code and React.
 
 ## Changelog
+
+### V52.1
+
+- Fixed mobile controls
+- Improved perk details
+- Fixed card inspection
+- Added screen-awake support
+- Fixed unwanted zoom
 
 ### V52
 
