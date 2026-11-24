@@ -1,5 +1,7 @@
 # Jadon's Ultimate Installer
 
+[Download V54.1 - one CMD file](https://github.com/NahWhatsWrongNow/MTG-Forge-Installer/releases/download/V54.1/Jadons.Ultimate.Installer.v54.1.cmd)
+
 [Download V54 - one CMD file](https://github.com/NahWhatsWrongNow/MTG-Forge-Installer/releases/download/V54/Jadons.Ultimate.Installer.v54.cmd)
 
 [Download V53.1 - one CMD file](https://github.com/NahWhatsWrongNow/MTG-Forge-Installer/releases/download/V53.1/Jadons.Ultimate.Installer.v53.1.cmd)
@@ -36,13 +38,18 @@
 
 **Beta builds:** [Download V44 Beta - one CMD file](https://github.com/NahWhatsWrongNow/MTG-Forge-Installer/raw/3d4be7ee978aa5a1d3a3c7cae7bb76a85b8e7b83/Jadons%20Ultimate%20Installer%20v44%20Beta.cmd)
 
-V54 is the latest release. Previous builds remain available above.
+V54.1 is the latest release. Previous builds remain available above.
 
 Download the file above and run it on Windows. You only need the CMD.
 
 The installer includes MTG Forge, Archidekt deck import and sync, A Betting Man, Hold The Line, The Backrooms: No Exit, and the university development tools for Python, VS Code and React.
 
 ## Changelog
+
+### V54.1
+
+- Fixed touch confirmation after dragging
+- Improved map gesture handling
 
 ### V54
 
